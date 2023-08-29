@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./",
-"paths": {
+    "paths": {
       "@assets/*": [
         "./src/assets/*"
       ],
@@ -40,6 +40,6 @@
       "@utils/*": [
         "./src/utils/*"
       ],
-}
+    }
   }
 }
