@@ -42,7 +42,11 @@ export function Input({
         }
         error={invalid}
         ref={inputRef}
-        style={{ backgroundColor: colors.background, fontSize: 20 }}
+        style={{
+          backgroundColor: colors.background,
+          fontSize: 20,
+          width: '100%',
+        }}
         {...rest}
       />
       {invalid && (

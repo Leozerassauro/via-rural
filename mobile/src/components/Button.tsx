@@ -24,6 +24,7 @@ export function Button({ ...rest }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     minHeight: 65,
     maxHeight: 65,
     justifyContent: 'center',

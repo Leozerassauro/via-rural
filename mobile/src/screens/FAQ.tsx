@@ -1,8 +1,9 @@
 import { Header } from '@components/Header'
 import { View, ScrollView } from 'react-native'
-import { Divider, Text } from 'react-native-paper'
+import { Divider, Text, useTheme } from 'react-native-paper'
 
-export function Home() {
+export function FAQ() {
+  const { colors } = useTheme()
   return (
     <View>
       <Header />
@@ -11,9 +12,17 @@ export function Home() {
           padding: 50,
           paddingBottom: 200,
           gap: 15,
-          alignItems: 'center',
         }}
       >
+        <Text variant="displaySmall" style={{ color: colors.primary }}>
+          FAQ
+        </Text>
+        <Text
+          variant="titleMedium"
+          style={{ color: colors.primary, marginBottom: 35 }}
+        >
+          Perguntas e respostas
+        </Text>
         <Text variant="headlineSmall">headline 1</Text>
         <Text variant="bodyLarge">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
