@@ -44,6 +44,7 @@ export function Input({
         ref={inputRef}
         style={{
           backgroundColor: colors.background,
+          borderBottomWidth: 0.5,
           fontSize: 20,
           width: '100%',
         }}

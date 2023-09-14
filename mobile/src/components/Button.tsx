@@ -9,13 +9,13 @@ import {
 type Props = ButtonProps
 
 export function Button({ ...rest }: Props) {
-  const { fonts } = useTheme()
+  const { fonts, colors } = useTheme()
 
   return (
     <PaperButton
       accessibilityRole="button"
       labelStyle={fonts.titleLarge}
-      style={styles.container}
+      style={[styles.container, { borderColor: colors.secondary }]}
       {...rest}
     />
   )

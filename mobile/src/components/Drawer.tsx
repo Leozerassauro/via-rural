@@ -1,7 +1,13 @@
 // Native
 import { useState } from 'react'
+import { openURL } from 'expo-linking'
 import { StyleSheet } from 'react-native'
-import { Drawer as PaperDrawer, useTheme } from 'react-native-paper'
+import {
+  Drawer as PaperDrawer,
+  IconButton,
+  Surface,
+  useTheme,
+} from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 // Routes
 import { AppNavigatorRoutesProps, AppRoutes } from '@routes/app.routes'
@@ -18,39 +24,80 @@ export function Drawer() {
   }
 
   return (
-    <>
-      <PaperDrawer.Section title="Menu" style={styles.drawer}>
+    <Surface style={[styles.surface, { backgroundColor: colors.tertiary }]}>
+      <PaperDrawer.Section style={styles.drawer}>
+        <PaperDrawer.Section theme={{ colors: { onBackground: 'red' } }}>
+          <PaperDrawer.Item
+            label="PERFIL"
+            // icon="account"
+            rippleColor={colors.surfaceVariant}
+            theme={{ colors: { onSurfaceVariant: colors.background } }}
+            // active={active === 'profile'}
+            onPress={() => handleNavigation('profile')}
+          />
+        </PaperDrawer.Section>
+        <PaperDrawer.Section>
+          <PaperDrawer.Item
+            label="FAQ"
+            // icon="information"
+            rippleColor={colors.surfaceVariant}
+            theme={{ colors: { onSurfaceVariant: colors.background } }}
+            // active={active === 'faq'}
+            onPress={() => handleNavigation('faq')}
+          />
+        </PaperDrawer.Section>
         <PaperDrawer.Item
-          label="Página Inicial"
-          icon="home"
-          rippleColor={colors.primary}
-          active={active === 'home'}
+          label="INSTITUCIONAL"
+          // icon="home"
+          rippleColor={colors.surfaceVariant}
+          theme={{ colors: { onSurfaceVariant: colors.background } }}
+          // active={active === 'home'}
           onPress={() => handleNavigation('home')}
-        />
-        <PaperDrawer.Item
-          label="Perfil"
-          icon="account"
-          rippleColor={colors.primary}
-          active={active === 'profile'}
-          onPress={() => handleNavigation('profile')}
-        />
-        <PaperDrawer.Item
-          label="FAQ"
-          icon="information"
-          rippleColor={colors.primary}
-          active={active === 'faq'}
-          onPress={() => handleNavigation('faq')}
         />
       </PaperDrawer.Section>
       <PaperDrawer.Section title="" showDivider={false}>
-        {/* <PaperDrawer.Item label="Sair" icon="logout" onPress={signOut} /> */}
+        <PaperDrawer.Section title="" showDivider={true}>
+          <Surface style={styles.socialMediaSurface} elevation={0}>
+            <IconButton
+              icon="facebook"
+              size={35}
+              onPress={() =>
+                openURL('https://www.facebook.com/viaruraloficial')
+              }
+            />
+            <IconButton
+              icon="instagram"
+              size={35}
+              onPress={() => openURL('https://www.instagram.com/via_rural_/')}
+            />
+            <IconButton
+              icon="web"
+              size={35}
+              onPress={() => openURL('http://via-rural.com/')}
+            />
+          </Surface>
+        </PaperDrawer.Section>
+        <PaperDrawer.Item
+          label="SAIR"
+          // icon="logout"
+          theme={{ colors: { onSurfaceVariant: colors.background } }}
+        />
       </PaperDrawer.Section>
-    </>
+    </Surface>
   )
 }
 
 const styles = StyleSheet.create({
+  surface: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingTop: 20,
+  },
   drawer: {
     marginTop: 50,
+  },
+  socialMediaSurface: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
 })

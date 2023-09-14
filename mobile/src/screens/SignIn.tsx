@@ -16,11 +16,14 @@ import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Twilio } from 'twilio'
+import { GradientButton } from '@components/GradientButton'
+import { BlurView } from 'expo-blur'
 
 type FormDataProps = {
   name: string
   phone: string
+  email: string
+  password: string
 }
 
 const getNextValue = (currentValue: string) => {
@@ -36,12 +39,16 @@ const signInSchema = yup.object({
     .string()
     .matches(/^\(\d{2}\) \d{5}-\d{4}$/, 'Formato de telefone inválido')
     .required('Informe seu telefone.'),
+  email: yup.string().email().required('Informe seu email.'),
+  password: yup.string().required('Informe sua senha.'),
 })
 
 export function SignIn() {
   const phoneRef = useRef<TextInput>(null)
+  const passwordRef = useRef<TextInput>(null)
   const [selected, setSelected] = useState('first')
   const [dialog, setDialog] = useState(false)
+  const [loginDialog, setLoginDialog] = useState(false)
   const [formType, setFormType] = useState('')
   const {
     control,
@@ -81,6 +88,12 @@ export function SignIn() {
 
   const hideDialog = () => setDialog(false)
 
+  const openLoginDialog = () => {
+    setLoginDialog(true)
+  }
+
+  const hideLoginDialog = () => setLoginDialog(false)
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setSelected((prevSelected) => getNextValue(prevSelected))
@@ -89,28 +102,7 @@ export function SignIn() {
     return () => clearInterval(intervalId)
   }, [])
 
-  const sendMessage = () => {
-    const client = new Twilio(accountSid, authToken)
-
-    const message = 'Sua mensagem aqui.'
-    const from = 'whatsapp:+555499789415' // Seu número Twilio do WhatsApp
-    const to = 'whatsapp:+14155238886' // O número de destino
-
-    client.messages
-      .create({
-        body: message,
-        from,
-        to,
-      })
-      .then((message) =>
-        console.log('Mensagem enviada com sucesso:', message.sid),
-      )
-      .catch((error) => console.error('Erro ao enviar a mensagem:', error))
-  }
-
-  async function handleSignIn({ name, phone }: FormDataProps) {
-    sendMessage()
-  }
+  async function handleSignIn({ name, phone }: FormDataProps) {}
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -135,70 +127,157 @@ export function SignIn() {
         value={String(selected)}
       >
         <View style={styles.phasesButtons}>
-          <RadioButton.Android value={'first'} />
-          <RadioButton.Android value={'second'} />
-          <RadioButton.Android value={'third'} />
-          <RadioButton.Android value={'fourth'} />
+          <RadioButton.Android
+            value={'first'}
+            uncheckedColor={colors.primary}
+          />
+          <RadioButton.Android
+            value={'second'}
+            uncheckedColor={colors.primary}
+          />
+          <RadioButton.Android
+            value={'third'}
+            uncheckedColor={colors.primary}
+          />
+          <RadioButton.Android
+            value={'fourth'}
+            uncheckedColor={colors.primary}
+          />
         </View>
       </RadioButton.Group>
       <View style={styles.buttons}>
-        <Button mode="contained" onPress={() => openDialog('producer')}>
+        <GradientButton
+          fullWidth
+          fullHeight
+          onPress={() => openDialog('producer')}
+        >
           Sou produtor
-        </Button>
+        </GradientButton>
         <Button mode="outlined" onPress={() => openDialog('serviceProvider')}>
           Sou prestador de serviço
         </Button>
+        <Button mode="text" onPress={openLoginDialog}>
+          <Text
+            variant="titleLarge"
+            style={{
+              color: colors.primary,
+              textDecorationLine: 'underline',
+            }}
+          >
+            Fazer login
+          </Text>
+        </Button>
       </View>
       <Portal>
-        <Dialog
-          visible={dialog}
-          onDismiss={hideDialog}
-          style={{ backgroundColor: colors.background }}
-        >
-          <Dialog.Actions>
-            <IconButton icon="close" onPress={hideDialog} />
-          </Dialog.Actions>
-          <Dialog.Content style={{ gap: 30, marginBottom: 40 }}>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field: { onChange } }) => (
-                <Input
-                  label="Nome"
-                  placeholder="Digite um nome"
-                  returnKeyType="next"
-                  onChangeText={onChange}
-                  errorMessage={errors.name?.message}
-                  onSubmitEditing={() => phoneRef.current?.focus()}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field: { onChange } }) => (
-                <Input
-                  label="Telefone (DDD)"
-                  placeholder="Digite um telefone"
-                  keyboardType="numeric"
-                  returnKeyType="send"
-                  onSubmitEditing={() => console.log('Enviou')}
-                  onChangeText={onChange}
-                  errorMessage={errors.phone?.message}
-                />
-              )}
-            />
-          </Dialog.Content>
-          <Dialog.Actions style={{ justifyContent: 'center' }}>
-            <Button
-              mode="contained"
-              style={{ width: '70%' }}
-              onPress={handleSubmit(handleSignIn)}
+        {dialog && (
+          <BlurView style={{ flex: 1 }} intensity={5} tint="light">
+            <Dialog
+              visible={dialog}
+              onDismiss={hideDialog}
+              style={{
+                backgroundColor: colors.background,
+                borderWidth: 2,
+                borderColor: colors.primary,
+              }}
             >
-              Enviar
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
+              <Dialog.Actions style={{ flex: 1, paddingTop: 10 }}>
+                <IconButton icon="close" onPress={hideDialog} />
+              </Dialog.Actions>
+              <Dialog.Content style={{ gap: 30, marginBottom: 20 }}>
+                <Controller
+                  control={control}
+                  name="name"
+                  render={({ field: { onChange } }) => (
+                    <Input
+                      label="Nome"
+                      placeholder="Digite um nome"
+                      returnKeyType="next"
+                      onChangeText={onChange}
+                      errorMessage={errors.name?.message}
+                      onSubmitEditing={() => phoneRef.current?.focus()}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="phone"
+                  render={({ field: { onChange } }) => (
+                    <Input
+                      label="Telefone (DDD)"
+                      placeholder="Digite um telefone"
+                      keyboardType="numeric"
+                      returnKeyType="send"
+                      onSubmitEditing={() => console.log('Enviou')}
+                      onChangeText={onChange}
+                      errorMessage={errors.phone?.message}
+                      inputRef={phoneRef}
+                    />
+                  )}
+                />
+              </Dialog.Content>
+              <Dialog.Actions style={{ justifyContent: 'center' }}>
+                <GradientButton onPress={handleSubmit(handleSignIn)}>
+                  Enviar
+                </GradientButton>
+              </Dialog.Actions>
+            </Dialog>
+          </BlurView>
+        )}
+      </Portal>
+      <Portal>
+        {loginDialog && (
+          <BlurView style={{ flex: 1 }} intensity={5} tint="light">
+            <Dialog
+              visible={loginDialog}
+              onDismiss={hideLoginDialog}
+              style={{
+                backgroundColor: colors.background,
+                borderWidth: 2,
+                borderColor: colors.primary,
+              }}
+            >
+              <Dialog.Actions style={{ flex: 1, paddingTop: 10 }}>
+                <IconButton icon="close" onPress={hideLoginDialog} />
+              </Dialog.Actions>
+              <Dialog.Content style={{ gap: 30, marginBottom: 40 }}>
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field: { onChange } }) => (
+                    <Input
+                      label="Email"
+                      placeholder="Digite seu email"
+                      returnKeyType="next"
+                      onChangeText={onChange}
+                      errorMessage={errors.email?.message}
+                      onSubmitEditing={() => passwordRef.current?.focus()}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field: { onChange } }) => (
+                    <Input
+                      label="Senha"
+                      placeholder="Digite sua senha"
+                      returnKeyType="send"
+                      onSubmitEditing={() => console.log('Enviou')}
+                      onChangeText={onChange}
+                      errorMessage={errors.password?.message}
+                      inputRef={passwordRef}
+                    />
+                  )}
+                />
+              </Dialog.Content>
+              <Dialog.Actions style={{ justifyContent: 'center' }}>
+                <GradientButton onPress={handleSubmit(handleSignIn)}>
+                  Enviar
+                </GradientButton>
+              </Dialog.Actions>
+            </Dialog>
+          </BlurView>
+        )}
       </Portal>
     </ScrollView>
   )
@@ -212,7 +291,7 @@ const styles = StyleSheet.create({
   banner: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '65%',
+    height: '63%',
     paddingTop: '50%',
     paddingBottom: '15%',
     borderBottomLeftRadius: 60,
