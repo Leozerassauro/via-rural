@@ -1,4 +1,4 @@
-import { Button } from '@components/Button'
+import { GradientButton } from '@components/GradientButton'
 import { Header } from '@components/Header'
 import { Input } from '@components/Input'
 import { StyleSheet, View } from 'react-native'
@@ -22,9 +22,9 @@ export function Profile() {
           value="(54) 99999 - 9999"
           keyboardType="numeric"
         />
-        <Button mode="contained" onPress={() => console.log('Pressed')}>
+        <GradientButton fullHeight onPress={() => console.log('Pressed')}>
           Salvar
-        </Button>
+        </GradientButton>
       </View>
     </View>
   )

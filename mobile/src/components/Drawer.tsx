@@ -9,6 +9,7 @@ import {
   useTheme,
 } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import { FontAwesome } from '@expo/vector-icons'
 // Routes
 import { AppNavigatorRoutesProps, AppRoutes } from '@routes/app.routes'
 
@@ -59,7 +60,13 @@ export function Drawer() {
         <PaperDrawer.Section title="" showDivider={true}>
           <Surface style={styles.socialMediaSurface} elevation={0}>
             <IconButton
-              icon="facebook"
+              icon={() => (
+                <FontAwesome
+                  name="facebook"
+                  size={28}
+                  color={colors.background}
+                />
+              )}
               size={35}
               onPress={() =>
                 openURL('https://www.facebook.com/viaruraloficial')
@@ -67,11 +74,13 @@ export function Drawer() {
             />
             <IconButton
               icon="instagram"
+              iconColor={colors.background}
               size={35}
               onPress={() => openURL('https://www.instagram.com/via_rural_/')}
             />
             <IconButton
               icon="web"
+              iconColor={colors.background}
               size={35}
               onPress={() => openURL('http://via-rural.com/')}
             />
