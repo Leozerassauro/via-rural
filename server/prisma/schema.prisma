@@ -27,3 +27,12 @@ model User {
 
   @@map("users")
 }
+
+model News {
+  id    String  @id @default(uuid())
+  title String
+  body  String
+  link  String?
+
+  @@map("news")
+}

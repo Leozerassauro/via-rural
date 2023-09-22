@@ -57,8 +57,6 @@ export function SignIn() {
   } = useForm<FormDataProps>({
     resolver: yupResolver(signInSchema),
   })
-  const accountSid = 'AC993d91986b0045cea340f49df015cbab'
-  const authToken = 'cf26fda07cccd0855e859a6bec3a6e1a'
 
   const phrases = {
     first: {

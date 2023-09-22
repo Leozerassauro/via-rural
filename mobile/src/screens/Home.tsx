@@ -10,9 +10,32 @@ import {
 import { LinearGradient } from 'expo-linear-gradient'
 import { openURL } from 'expo-linking'
 import { FontAwesome } from '@expo/vector-icons'
+import { api } from '@services/api'
+import { Fragment, useEffect, useState } from 'react'
+import { NewsDTO } from '@dtos/NewsDTO'
 
 export function Home() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [newsList, setNewsList] = useState<NewsDTO[]>([])
+
   const { colors } = useTheme()
+
+  async function getNews() {
+    try {
+      setIsLoading(true)
+      const { data } = await api.get('/get-news')
+
+      setNewsList(data.news)
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getNews()
+  }, [])
+
   return (
     <View>
       <Header />
@@ -25,38 +48,20 @@ export function Home() {
           alignItems: 'center',
         }}
       >
-        <Text variant="headlineSmall">headline 1</Text>
-        <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 2</Text>
-        <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 3</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 4</Text>
-        <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%' }} />
+        {isLoading ? (
+          <></>
+        ) : (
+          newsList.map((news) => (
+            <Fragment key={news.id}>
+              <Text variant="headlineSmall">{news.title}</Text>
+              <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
+                {news.body}
+              </Text>
+              <Divider bold style={{ width: '100%', marginBottom: 15 }} />
+            </Fragment>
+          ))
+        )}
+
         <Text
           variant="titleLarge"
           style={{ textAlign: 'center', color: colors.primary }}
