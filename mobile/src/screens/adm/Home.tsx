@@ -18,6 +18,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { Input } from '@components/Input'
 import { GradientRoundedButton } from '@components/GradientRoundedButton'
 import Entypo from '@expo/vector-icons/Entypo'
+import { AdmNavigatorRoutesProps } from '@routes/adm.routes'
+import { useNavigation } from '@react-navigation/native'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -25,9 +27,9 @@ export function Home() {
   const [editDialog, setEditDialog] = useState(false)
   const [deleteDialog, setDeleteDialog] = useState(false)
   const [editFieldsDialog, setEditFieldsDialog] = useState(false)
-  const [addFieldsDialog, setAddFieldsDialog] = useState(false)
   const [newsId, setNewsId] = useState('')
   const [newsData, setNewsData] = useState<NewsDTO>({} as NewsDTO)
+  const navigation = useNavigation<AdmNavigatorRoutesProps>()
   const { control, handleSubmit, setValue } = useForm<NewsDTO>({
     defaultValues: {
       title: '',
@@ -62,15 +64,6 @@ export function Home() {
     hideEditDialog()
     setEditFieldsDialog(false)
   }
-
-  const openAddDialog = () => {
-    setValue('title', '')
-    setValue('body', '')
-    setValue('link', '')
-    setAddFieldsDialog(true)
-  }
-
-  const hideAddDialog = () => setAddFieldsDialog(false)
 
   const { colors } = useTheme()
 
@@ -125,24 +118,6 @@ export function Home() {
     }
   }
 
-  async function handleAddNews({ title, body, link }: NewsDTO) {
-    try {
-      setIsLoading(true)
-      await api.post(`/create-news`, {
-        title,
-        body,
-        link,
-      })
-
-      getNews()
-
-      hideAddDialog()
-    } catch (error) {
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   return (
     <View style={{ flex: 1 }}>
       <Header />
@@ -183,7 +158,7 @@ export function Home() {
       )}
       <GradientRoundedButton
         icon={() => <Entypo name="plus" size={32} color={colors.background} />}
-        onPress={openAddDialog}
+        onPress={() => navigation.navigate('addNews')}
       />
       <Portal>
         {editDialog && (
@@ -342,83 +317,6 @@ export function Home() {
                     paddingVertical: 8,
                   }}
                   onPress={handleSubmit(handleEditNews)}
-                >
-                  Salvar
-                </Button>
-              </Dialog.Actions>
-            </Dialog>
-          </BlurView>
-        )}
-      </Portal>
-      <Portal>
-        {addFieldsDialog && (
-          <BlurView style={{ flex: 1 }} intensity={5} tint="light">
-            <Dialog
-              visible={addFieldsDialog}
-              onDismiss={hideAddDialog}
-              style={{
-                backgroundColor: colors.background,
-                borderWidth: 2,
-                borderColor: colors.primary,
-              }}
-            >
-              <Dialog.Actions style={{ flex: 1, paddingTop: 10 }}>
-                <IconButton icon="close" onPress={hideAddDialog} />
-              </Dialog.Actions>
-              <Dialog.Title style={{ textAlign: 'center' }}>
-                Adicionar nova postagem
-              </Dialog.Title>
-              <Dialog.Content>
-                <Controller
-                  control={control}
-                  name="title"
-                  render={({ field: { value, onChange } }) => (
-                    <Input
-                      multiline
-                      label="Título"
-                      placeholder="Digite um nome"
-                      returnKeyType="next"
-                      value={value}
-                      onChangeText={onChange}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="body"
-                  render={({ field: { value, onChange } }) => (
-                    <Input
-                      multiline
-                      label="Corpo"
-                      placeholder="Digite um título"
-                      returnKeyType="next"
-                      value={value}
-                      onChangeText={onChange}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="link"
-                  render={({ field: { value, onChange } }) => (
-                    <Input
-                      label="Link"
-                      placeholder="Digite o link"
-                      returnKeyType="next"
-                      value={value}
-                      onChangeText={onChange}
-                    />
-                  )}
-                />
-              </Dialog.Content>
-              <Dialog.Actions style={{ justifyContent: 'space-evenly' }}>
-                <Button
-                  mode="contained"
-                  style={{
-                    paddingHorizontal: 25,
-                    paddingVertical: 8,
-                  }}
-                  onPress={handleSubmit(handleAddNews)}
                 >
                   Salvar
                 </Button>

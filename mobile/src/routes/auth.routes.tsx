@@ -4,9 +4,11 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack'
 // Screens
+import { Authenticate } from '@screens/Authenticate'
 import { SignIn } from '@screens/SignIn'
 
 type AuthRoutes = {
+  authenticate: undefined
   signIn: undefined
 }
 
@@ -17,6 +19,7 @@ const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>()
 export function AuthRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="authenticate" component={Authenticate} />
       <Screen name="signIn" component={SignIn} />
     </Navigator>
   )

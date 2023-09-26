@@ -23,6 +23,7 @@ model User {
   phone         String
   password_hash String?
   user_type     UserType @default(SERVICE_PROVIDER)
+  contacted     Boolean  @default(false)
   created_at    DateTime @default(now())
 
   @@map("users")

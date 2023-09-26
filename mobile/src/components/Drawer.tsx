@@ -12,11 +12,13 @@ import { useNavigation } from '@react-navigation/native'
 import { FontAwesome } from '@expo/vector-icons'
 // Routes
 import { AppNavigatorRoutesProps, AppRoutes } from '@routes/app.routes'
+import { useAuth } from '@hooks/useAuth'
 
 export function Drawer() {
   const [active, setActive] = useState('home')
 
   const { colors } = useTheme()
+  const { signOut } = useAuth()
   const navigation = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigation(route: keyof AppRoutes) {
@@ -88,8 +90,8 @@ export function Drawer() {
         </PaperDrawer.Section>
         <PaperDrawer.Item
           label="SAIR"
-          // icon="logout"
           theme={{ colors: { onSurfaceVariant: colors.background } }}
+          onPress={signOut}
         />
       </PaperDrawer.Section>
     </Surface>

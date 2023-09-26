@@ -13,13 +13,16 @@ import { Loading } from '@components/Loading'
 import { lightTheme } from '@themes/light'
 // Routes
 import { Routes } from '@routes/index'
+import { AuthContextProvider } from '@contexts/Auth'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold })
   return (
     <PaperProvider theme={lightTheme}>
       <StatusBar style="light" />
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthContextProvider>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContextProvider>
     </PaperProvider>
   )
 }

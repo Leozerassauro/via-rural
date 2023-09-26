@@ -29,23 +29,22 @@ export function AdmDrawer() {
       <PaperDrawer.Section style={styles.drawer}>
         <PaperDrawer.Section>
           <PaperDrawer.Item
-            label="CONTATOS"
+            label="NOTICIAS"
             rippleColor={colors.surfaceVariant}
             theme={{ colors: { onSurfaceVariant: colors.background } }}
-            onPress={() => handleNavigation('contacts')}
+            onPress={() => handleNavigation('news')}
           />
         </PaperDrawer.Section>
         <PaperDrawer.Item
-          label="NOTICIAS"
+          label="CONTATOS"
           rippleColor={colors.surfaceVariant}
           theme={{ colors: { onSurfaceVariant: colors.background } }}
-          onPress={() => handleNavigation('news')}
+          onPress={() => handleNavigation('contacts')}
         />
       </PaperDrawer.Section>
       <PaperDrawer.Section title="" showDivider={false}>
         <PaperDrawer.Item
           label="SAIR"
-          // icon="logout"
           theme={{ colors: { onSurfaceVariant: colors.background } }}
         />
       </PaperDrawer.Section>

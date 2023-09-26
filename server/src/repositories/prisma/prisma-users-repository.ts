@@ -10,4 +10,33 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async edit(data: Prisma.UserUncheckedCreateInput) {
+    const user = await prisma.user.update({
+      where: { id: data.id },
+      data,
+    })
+
+    return user
+  }
+
+  async findById(id: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
+  }
+
+  async findByPhone(phone: string) {
+    const user = await prisma.user.findFirst({
+      where: {
+        phone,
+      },
+    })
+
+    return user
+  }
 }

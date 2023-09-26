@@ -13,6 +13,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { api } from '@services/api'
 import { Fragment, useEffect, useState } from 'react'
 import { NewsDTO } from '@dtos/NewsDTO'
+import { Loading } from '@components/Loading'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,7 +50,7 @@ export function Home() {
         }}
       >
         {isLoading ? (
-          <></>
+          <Loading />
         ) : (
           newsList.map((news) => (
             <Fragment key={news.id}>

@@ -8,10 +8,12 @@ import { AdmDrawer } from '@components/AdmDrawer'
 // Screens
 import { Home } from '@screens/adm/Home'
 import { Contacts } from '@screens/adm/Contacts'
+import { AddNews } from '@screens/adm/AddNews'
 
 export type AdmRoutes = {
   contacts: undefined
   news: undefined
+  addNews: undefined
 }
 
 export type AdmNavigatorRoutesProps = DrawerNavigationProp<AdmRoutes>
@@ -26,8 +28,9 @@ export function AdmRoutes() {
       }}
       drawerContent={() => <AdmDrawer />}
     >
-      <Screen name="contacts" component={Contacts} />
       <Screen name="news" component={Home} />
+      <Screen name="contacts" component={Contacts} />
+      <Screen name="addNews" component={AddNews} />
     </Navigator>
   )
 }

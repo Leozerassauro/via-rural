@@ -3,20 +3,20 @@ import { View, ScrollView, StyleSheet } from 'react-native'
 import {
   Card,
   Checkbox,
-  Divider,
   IconButton,
   Surface,
   Text,
   useTheme,
 } from 'react-native-paper'
 import { LinearGradient } from 'expo-linear-gradient'
-import { openURL } from 'expo-linking'
-import { FontAwesome } from '@expo/vector-icons'
-import { Input } from '@components/Input'
 import { useState } from 'react'
+import { useAuth } from '@hooks/useAuth'
 
 export function Contacts() {
-  const [checked, setChecked] = useState(false)
+  const { user } = useAuth()
+
+  console.log(user)
+
   const { colors } = useTheme()
   return (
     <View>
@@ -64,122 +64,10 @@ export function Contacts() {
             </Surface>
           </View>
         </Card>
-        <Card style={styles.card}>
-          <View style={styles.view}>
-            <Checkbox
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked)
-              }}
-            />
-            <View style={styles.texts}>
-              <Text variant="titleLarge">Helen Prates</Text>
-              <Text variant="bodyMedium">(54) 99999-9999</Text>
-            </View>
-            <Surface style={styles.surface} elevation={2}>
-              <LinearGradient
-                colors={['#25621E', '#3B9D30', '#163A12']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.iconButton}
-              >
-                <IconButton
-                  icon="whatsapp"
-                  iconColor={colors.background}
-                  onPress={() => console.log('Zaperson')}
-                />
-              </LinearGradient>
-            </Surface>
-          </View>
-        </Card>
-        <Card style={styles.card}>
-          <View style={styles.view}>
-            <Checkbox
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked)
-              }}
-            />
-            <View style={styles.texts}>
-              <Text variant="titleLarge">Helen Prates</Text>
-              <Text variant="bodyMedium">(54) 99999-9999</Text>
-            </View>
-            <Surface style={styles.surface} elevation={2}>
-              <LinearGradient
-                colors={['#25621E', '#3B9D30', '#163A12']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.iconButton}
-              >
-                <IconButton
-                  icon="whatsapp"
-                  iconColor={colors.background}
-                  onPress={() => console.log('Zaperson')}
-                />
-              </LinearGradient>
-            </Surface>
-          </View>
-        </Card>
 
         <View style={{ width: '100%' }}>
           <Text variant="bodyLarge">Contatados</Text>
         </View>
-        <Card style={[styles.card, { backgroundColor: colors.surfaceVariant }]}>
-          <View style={styles.view}>
-            <Checkbox
-              status={'checked'}
-              onPress={() => {
-                setChecked(!checked)
-              }}
-            />
-            <View style={styles.texts}>
-              <Text variant="titleLarge">Helen Prates</Text>
-              <Text variant="bodyMedium">(54) 99999-9999</Text>
-            </View>
-            <Surface style={styles.surface} elevation={2}>
-              <LinearGradient
-                colors={['#25621E', '#3B9D30', '#163A12']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.iconButton}
-              >
-                <IconButton
-                  icon="whatsapp"
-                  iconColor={colors.background}
-                  onPress={() => console.log('Zaperson')}
-                />
-              </LinearGradient>
-            </Surface>
-          </View>
-        </Card>
-        <Card style={[styles.card, { backgroundColor: colors.surfaceVariant }]}>
-          <View style={styles.view}>
-            <Checkbox
-              status={'checked'}
-              onPress={() => {
-                setChecked(!checked)
-              }}
-            />
-            <View style={styles.texts}>
-              <Text variant="titleLarge">Helen Prates</Text>
-              <Text variant="bodyMedium">(54) 99999-9999</Text>
-            </View>
-            <Surface style={styles.surface} elevation={2}>
-              <LinearGradient
-                colors={['#25621E', '#3B9D30', '#163A12']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.iconButton}
-              >
-                <IconButton
-                  icon="whatsapp"
-                  iconColor={colors.background}
-                  onPress={() => console.log('Zaperson')}
-                />
-              </LinearGradient>
-            </Surface>
-          </View>
-        </Card>
         <Card style={[styles.card, { backgroundColor: colors.surfaceVariant }]}>
           <View style={styles.view}>
             <Checkbox
