@@ -1,19 +1,15 @@
 import { Header } from '@components/Header'
 import { View, ScrollView, StyleSheet } from 'react-native'
-import {
-  Divider,
-  IconButton,
-  Surface,
-  Text,
-  useTheme,
-} from 'react-native-paper'
-import { LinearGradient } from 'expo-linear-gradient'
-import { openURL } from 'expo-linking'
-import { FontAwesome } from '@expo/vector-icons'
+import { Divider, Text, useTheme } from 'react-native-paper'
 import { api } from '@services/api'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { NewsDTO } from '@dtos/NewsDTO'
 import { Loading } from '@components/Loading'
+import { SocialMedias } from '@components/SocialMedias'
+import { useFocusEffect } from '@react-navigation/native'
+import { Button } from '@components/Button'
+import { openURL } from 'expo-linking'
+import { GradientButton } from '@components/GradientButton'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -33,9 +29,11 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    getNews()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      getNews()
+    }, []),
+  )
 
   return (
     <View>
@@ -49,95 +47,51 @@ export function Home() {
           alignItems: 'center',
         }}
       >
+        <View>
+          <Text variant="displayLarge" style={{ color: colors.primary }}>
+            Notícias
+          </Text>
+          <Text
+            variant="titleLarge"
+            style={{
+              color: colors.primary,
+              marginBottom: 35,
+            }}
+          >
+            As últimas notícias sobre o meio Rural !
+          </Text>
+        </View>
         {isLoading ? (
           <Loading />
         ) : (
           newsList.map((news) => (
             <Fragment key={news.id}>
-              <Text variant="headlineSmall">{news.title}</Text>
-              <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
-                {news.body}
-              </Text>
-              <Divider bold style={{ width: '100%', marginBottom: 15 }} />
+              <View style={styles.newsContainer}>
+                <Text variant="headlineSmall">{news.title}</Text>
+                <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
+                  {news.body}
+                </Text>
+                {news.link && (
+                  <GradientButton onPress={() => openURL(news.link)}>
+                    Ver notícia completa
+                  </GradientButton>
+                )}
+              </View>
+              <Divider bold style={{ width: '100%', marginVertical: 20 }} />
             </Fragment>
           ))
         )}
-
-        <Text
-          variant="titleLarge"
-          style={{ textAlign: 'center', color: colors.primary }}
-        >
-          Entre em contato conosco agora mesmo!
-        </Text>
-        <View style={{ flex: 1, flexDirection: 'row', gap: 15 }}>
-          <Surface style={styles.surface} elevation={2}>
-            <LinearGradient
-              colors={['#25621E', '#3B9D30', '#163A12']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.iconButton}
-            >
-              <IconButton
-                icon={() => (
-                  <FontAwesome
-                    name="facebook"
-                    size={42}
-                    color={colors.background}
-                  />
-                )}
-                size={48}
-                onPress={() =>
-                  openURL('https://www.facebook.com/viaruraloficial')
-                }
-              />
-            </LinearGradient>
-          </Surface>
-          <Surface style={styles.surface} elevation={2}>
-            <LinearGradient
-              colors={['#25621E', '#3B9D30', '#163A12']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 2, y: 1 }}
-              style={styles.iconButton}
-            >
-              <IconButton
-                icon="instagram"
-                iconColor={colors.background}
-                size={48}
-                onPress={() => openURL('https://www.instagram.com/via_rural_/')}
-              />
-            </LinearGradient>
-          </Surface>
-          <Surface style={styles.surface} elevation={2}>
-            <LinearGradient
-              colors={['#25621E', '#3B9D30', '#163A12']}
-              start={{ x: 1, y: 1 }}
-              end={{ x: 0, y: 0 }}
-              style={styles.iconButton}
-            >
-              <IconButton
-                icon="web"
-                iconColor={colors.background}
-                size={48}
-                onPress={() => openURL('http://via-rural.com/')}
-              />
-            </LinearGradient>
-          </Surface>
-        </View>
+        <SocialMedias />
       </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  surface: {
-    width: 80,
-    height: 80,
-    borderRadius: 15,
-  },
-  iconButton: {
+  newsContainer: {
     flex: 1,
+    gap: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
   },
 })

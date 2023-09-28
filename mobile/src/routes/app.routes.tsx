@@ -9,11 +9,13 @@ import { Drawer } from '@components/Drawer'
 import { Home } from '@screens/Home'
 import { Profile } from '@screens/Profile'
 import { FAQ } from '@screens/FAQ'
+import { Institutional } from '@screens/Institutional'
 
 export type AppRoutes = {
   home: undefined
   profile: undefined
   faq: undefined
+  institutional: undefined
 }
 
 export type AppNavigatorRoutesProps = DrawerNavigationProp<AppRoutes>
@@ -31,6 +33,7 @@ export function AppRoutes() {
       <Screen name="home" component={Home} />
       <Screen name="profile" component={Profile} />
       <Screen name="faq" component={FAQ} />
+      <Screen name="institutional" component={Institutional} />
     </Navigator>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Image } from 'react-native'
 import {
   Dialog,
   IconButton,
@@ -29,6 +29,10 @@ import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 type FormDataProps = {
   name: string
   phone: string
+}
+
+type PhraseProps = {
+  [key: string]: { phase: string; person: string }
 }
 
 const getNextValue = (currentValue: string) => {
@@ -62,7 +66,7 @@ export function Authenticate() {
     resolver: yupResolver(authenticateSchema),
   })
 
-  const phrases = {
+  const phrases: PhraseProps = {
     first: {
       phase: 'Mão de obra qualificada. Recomendo!',
       person: 'Larissa Gusman',

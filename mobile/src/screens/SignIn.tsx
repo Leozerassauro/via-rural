@@ -4,9 +4,12 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useRef } from 'react'
-import { useTheme } from 'react-native-paper'
+import { Text, useTheme } from 'react-native-paper'
 import LogoSvg from '@assets/logo.svg'
 import { GradientButton } from '@components/GradientButton'
+import { Button } from '@components/Button'
+import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
+import { useNavigation } from '@react-navigation/native'
 
 type SignInProps = {
   email: string
@@ -28,14 +31,16 @@ export function SignIn() {
     resolver: yupResolver(signInSchema),
   })
 
+  const navigation = useNavigation<AuthNavigatorRoutesProps>()
+
   const { colors } = useTheme()
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={[styles.banner, { backgroundColor: colors.primary }]}>
         <LogoSvg />
       </View>
-      <View style={styles.buttons}>
+      <View style={styles.inputs}>
         <Controller
           control={control}
           name="email"
@@ -65,7 +70,20 @@ export function SignIn() {
             />
           )}
         />
+      </View>
+      <View style={styles.buttons}>
         <GradientButton>Entrar</GradientButton>
+        <Button mode="text" onPress={() => navigation.goBack()}>
+          <Text
+            variant="titleLarge"
+            style={{
+              color: colors.primary,
+              textDecorationLine: 'underline',
+            }}
+          >
+            Voltar para tela inicial
+          </Text>
+        </Button>
       </View>
     </View>
   )
@@ -77,17 +95,24 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   banner: {
+    height: '50%',
+    justifyContent: 'center',
     alignItems: 'center',
-    height: '83%',
-    paddingTop: '50%',
-    paddingBottom: '15%',
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
+  },
+  inputs: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 45,
+    gap: 20,
   },
   buttons: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 45,
     gap: 20,
+    marginTop: 20,
+    paddingHorizontal: 45,
   },
 })

@@ -7,10 +7,13 @@ import { verifyUserType } from '@/http/middlewares/verify-user-type'
 import { authenticate } from './authenticate'
 import { profile } from './profile'
 import { changeContactStatus } from './changeContactStatus'
+import { getUsers } from './getUsers'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/register', register)
   app.post('/authenticate', authenticate)
+
+  app.get('/get-users', { onRequest: [verifyJWT] }, getUsers)
 
   app.get('/profile', { onRequest: [verifyJWT] }, profile)
 
@@ -18,7 +21,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.patch(
     '/edit-user-contact-status/:id',
-    { onRequest: [verifyJWT, verifyUserType('ADMIN')] },
+    // { onRequest: [verifyJWT, verifyUserType('ADMIN')] },
     changeContactStatus,
   )
 }

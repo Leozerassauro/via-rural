@@ -39,4 +39,20 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async findAll() {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        contacted: true,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    })
+
+    return users
+  }
 }

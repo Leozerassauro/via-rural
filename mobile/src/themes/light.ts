@@ -29,12 +29,16 @@ export const lightTheme = {
       fontSize: 20,
     },
     headlineSmall: {
-      fontFamily: 'Nunito_700Bold',
+      fontFamily: 'Nunito_900Black',
       fontSize: 20,
     },
     titleLarge: {
       fontFamily: 'Nunito_700Bold',
       fontSize: 18,
+    },
+    displayLarge: {
+      fontFamily: 'Nunito_900Black',
+      fontSize: 40,
     },
   },
 }

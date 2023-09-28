@@ -1,7 +1,7 @@
 // Native
-import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet } from 'react-native'
-import { IconButton, IconButtonProps, useTheme } from 'react-native-paper'
+import { IconButton, IconButtonProps } from 'react-native-paper'
+import { LinearGradient } from 'expo-linear-gradient'
 
 type Props = IconButtonProps & {
   fullWidth?: boolean
@@ -9,8 +9,6 @@ type Props = IconButtonProps & {
 }
 
 export function GradientRoundedButton({ ...rest }: Props) {
-  const { colors } = useTheme()
-
   return (
     <LinearGradient
       colors={['#25621E', '#3B9D30', '#163A12']}

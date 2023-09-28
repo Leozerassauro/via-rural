@@ -33,12 +33,15 @@ export function Input({
       <TextInput
         secureTextEntry={password && !showPassword}
         right={
-          password && (
-            <TextInput.Icon
-              icon={showPassword ? 'eye-off' : 'eye'}
-              onPress={handleShowPassword}
-            />
-          )
+          password ? (
+            showPassword ? (
+              <TextInput.Icon icon="eye-off" onPress={handleShowPassword} />
+            ) : (
+              <TextInput.Icon icon="eye" onPress={handleShowPassword} />
+            )
+          ) : invalid ? (
+            <TextInput.Icon icon="information-outline" color={colors.error} />
+          ) : null
         }
         error={invalid}
         ref={inputRef}
@@ -47,6 +50,10 @@ export function Input({
           fontSize: 20,
           width: '100%',
         }}
+        outlineStyle={
+          !invalid && { borderColor: colors.primary, borderWidth: 2 }
+        }
+        underlineStyle={!invalid && { borderColor: colors.primary }}
         {...rest}
       />
       {invalid && (

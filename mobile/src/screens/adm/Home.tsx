@@ -9,7 +9,7 @@ import {
   useTheme,
 } from 'react-native-paper'
 import { api } from '@services/api'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { NewsDTO } from '@dtos/NewsDTO'
 import { BlurView } from 'expo-blur'
 import { Button } from '@components/Button'
@@ -19,7 +19,9 @@ import { Input } from '@components/Input'
 import { GradientRoundedButton } from '@components/GradientRoundedButton'
 import Entypo from '@expo/vector-icons/Entypo'
 import { AdmNavigatorRoutesProps } from '@routes/adm.routes'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { GradientButton } from '@components/GradientButton'
+import { openURL } from 'expo-linking'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -79,9 +81,11 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    getNews()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      getNews()
+    }, []),
+  )
 
   async function handleDeleteNews(id: string) {
     try {
@@ -113,6 +117,7 @@ export function Home() {
 
       hideEditFieldsDialog()
     } catch (error) {
+      console.log('Deu errado')
     } finally {
       setIsLoading(false)
     }
@@ -141,7 +146,12 @@ export function Home() {
                   size={28}
                   onPress={() => openEditDialog(news)}
                 />
-                <Text variant="headlineSmall">{news.title}</Text>
+                <Text
+                  variant="headlineSmall"
+                  style={{ flex: 1, textAlign: 'left' }}
+                >
+                  {news.title}
+                </Text>
                 <IconButton
                   icon="trash-can-outline"
                   size={28}
@@ -151,6 +161,11 @@ export function Home() {
               <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
                 {news.body}
               </Text>
+              {news.link && (
+                <GradientButton onPress={() => openURL(news.link)}>
+                  Ver notícia completa
+                </GradientButton>
+              )}
               <Divider bold style={{ width: '100%', marginBottom: 15 }} />
             </Fragment>
           ))}

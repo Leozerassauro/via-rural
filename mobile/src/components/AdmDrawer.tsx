@@ -1,27 +1,20 @@
 // Native
-import { useState } from 'react'
-import { openURL } from 'expo-linking'
+
 import { StyleSheet } from 'react-native'
-import {
-  Drawer as PaperDrawer,
-  IconButton,
-  Surface,
-  useTheme,
-} from 'react-native-paper'
+import { Drawer as PaperDrawer, Surface, useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { FontAwesome } from '@expo/vector-icons'
 // Routes
 import { AdmNavigatorRoutesProps, AdmRoutes } from '@routes/adm.routes'
+import { useAuth } from '@hooks/useAuth'
 
 export function AdmDrawer() {
-  const [active, setActive] = useState('home')
+  const navigation = useNavigation<AdmNavigatorRoutesProps>()
 
   const { colors } = useTheme()
-  const navigation = useNavigation<AdmNavigatorRoutesProps>()
+  const { signOut } = useAuth()
 
   function handleNavigation(route: keyof AdmRoutes) {
     navigation.navigate(route)
-    setActive(route)
   }
 
   return (
@@ -46,6 +39,7 @@ export function AdmDrawer() {
         <PaperDrawer.Item
           label="SAIR"
           theme={{ colors: { onSurfaceVariant: colors.background } }}
+          onPress={signOut}
         />
       </PaperDrawer.Section>
     </Surface>

@@ -6,6 +6,7 @@ import {
   useFonts,
   Nunito_400Regular,
   Nunito_700Bold,
+  Nunito_900Black,
 } from '@expo-google-fonts/nunito'
 // Components
 import { Loading } from '@components/Loading'
@@ -16,7 +17,11 @@ import { Routes } from '@routes/index'
 import { AuthContextProvider } from '@contexts/Auth'
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold })
+  const [fontsLoaded] = useFonts({
+    Nunito_400Regular,
+    Nunito_700Bold,
+    Nunito_900Black,
+  })
   return (
     <PaperProvider theme={lightTheme}>
       <StatusBar style="light" />
