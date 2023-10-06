@@ -21,11 +21,20 @@ export function Routes() {
     return <Loading />
   }
 
+  console.log(user)
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <NavigationContainer theme={theme}>
-        {/* {user.id ? <AppRoutes /> : <AuthRoutes />} */}
-        <AdmRoutes />
+        {user.id ? (
+          user.user_type === 'ADMIN' ? (
+            <AdmRoutes />
+          ) : (
+            <AppRoutes />
+          )
+        ) : (
+          <AuthRoutes />
+        )}
       </NavigationContainer>
     </View>
   )

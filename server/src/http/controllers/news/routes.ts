@@ -11,23 +11,17 @@ export async function newsRoutes(app: FastifyInstance) {
 
   app.get('/get-news', get)
 
-  // app.post('/create-news', { onRequest: [verifyUserType('ADMIN')] }, createNews)
+  app.post('/create-news', { onRequest: [verifyUserType('ADMIN')] }, createNews)
 
-  // app.patch(
-  //   '/edit-news/:id',
-  //   { onRequest: [verifyUserType('ADMIN')] },
-  //   editNews,
-  // )
+  app.patch(
+    '/edit-news/:id',
+    { onRequest: [verifyUserType('ADMIN')] },
+    editNews,
+  )
 
-  // app.delete(
-  //   '/delete-news/:id',
-  //   { onRequest: [verifyUserType('ADMIN')] },
-  //   deleteNews,
-  // )
-
-  app.post('/create-news', createNews)
-
-  app.patch('/edit-news/:id', editNews)
-
-  app.delete('/delete-news/:id', deleteNews)
+  app.delete(
+    '/delete-news/:id',
+    { onRequest: [verifyUserType('ADMIN')] },
+    deleteNews,
+  )
 }

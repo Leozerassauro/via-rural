@@ -1,15 +1,16 @@
 import { Input } from '@components/Input'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, ScrollView } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Text, useTheme } from 'react-native-paper'
 import LogoSvg from '@assets/logo.svg'
 import { GradientButton } from '@components/GradientButton'
 import { Button } from '@components/Button'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 import { useNavigation } from '@react-navigation/native'
+import { useAuth } from '@hooks/useAuth'
 
 type SignInProps = {
   email: string
@@ -23,6 +24,7 @@ const signInSchema = yup.object({
 
 export function SignIn() {
   const passwordRef = useRef<TextInput>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const {
     control,
     handleSubmit,
@@ -34,9 +36,23 @@ export function SignIn() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
   const { colors } = useTheme()
+  const { signIn } = useAuth()
+
+  async function handleSignIn({ email, password }: SignInProps) {
+    try {
+      setIsLoading(true)
+      await signIn(email, password)
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
       <View style={[styles.banner, { backgroundColor: colors.primary }]}>
         <LogoSvg />
       </View>
@@ -48,6 +64,8 @@ export function SignIn() {
             <Input
               label="Email"
               placeholder="Digite seu email"
+              keyboardType="email-address"
+              autoCapitalize="none"
               returnKeyType="next"
               onChangeText={onChange}
               errorMessage={errors.email?.message}
@@ -60,8 +78,10 @@ export function SignIn() {
           name="password"
           render={({ field: { onChange } }) => (
             <Input
+              password
               label="Senha"
               placeholder="Digite sua senha"
+              autoCapitalize="none"
               returnKeyType="send"
               onSubmitEditing={() => console.log('Enviou')}
               onChangeText={onChange}
@@ -72,7 +92,9 @@ export function SignIn() {
         />
       </View>
       <View style={styles.buttons}>
-        <GradientButton>Entrar</GradientButton>
+        <GradientButton onPress={handleSubmit(handleSignIn)}>
+          Entrar
+        </GradientButton>
         <Button mode="text" onPress={() => navigation.goBack()}>
           <Text
             variant="titleLarge"
@@ -85,15 +107,11 @@ export function SignIn() {
           </Text>
         </Button>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: 15,
-  },
   banner: {
     height: '50%',
     justifyContent: 'center',

@@ -58,9 +58,6 @@ export function AuthContextProvider({ children }: AuthContextProps) {
   async function authenticate(phone: string) {
     try {
       const { data } = await api.post('/authenticate', { phone })
-
-      console.log('AuthData =>', data)
-
       if (data.user && data.token) {
         await storageUserAndTokenSave(data.user, data.token)
         userAndTokenUpdate(data.user, data.token)
@@ -74,7 +71,7 @@ export function AuthContextProvider({ children }: AuthContextProps) {
 
   async function signIn(email: string, password: string) {
     try {
-      const { data } = await api.post('/authenticate', { email, password })
+      const { data } = await api.post('/adm/authenticate', { email, password })
 
       if (data.user && data.token) {
         await storageUserAndTokenSave(data.user, data.token)
