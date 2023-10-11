@@ -37,3 +37,21 @@ model News {
 
   @@map("news")
 }
+
+model Faqs {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  user_type UserType @default(SERVICE_PROVIDER)
+
+  @@map("faqs")
+}
+
+model Institutional {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  user_type UserType @default(SERVICE_PROVIDER)
+
+  @@map("institutional")
+}

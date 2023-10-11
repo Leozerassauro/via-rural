@@ -83,7 +83,7 @@ export function SignIn() {
               placeholder="Digite sua senha"
               autoCapitalize="none"
               returnKeyType="send"
-              onSubmitEditing={() => console.log('Enviou')}
+              onSubmitEditing={handleSubmit(handleSignIn)}
               onChangeText={onChange}
               errorMessage={errors.password?.message}
               inputRef={passwordRef}

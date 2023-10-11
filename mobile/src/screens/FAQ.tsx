@@ -1,10 +1,31 @@
 import { Header } from '@components/Header'
 import { SocialMedias } from '@components/SocialMedias'
+import { api } from '@services/api'
+import { Fragment, useEffect, useState } from 'react'
 import { View, ScrollView } from 'react-native'
 import { Divider, Text, useTheme } from 'react-native-paper'
 
+type FaqProps = {
+  id: string
+  title: string
+  body: string
+  user_type: 'SERVICE_PROVIDER' | 'PRODUCER'
+}
+
 export function FAQ() {
+  const [faqs, setFaqs] = useState<FaqProps[]>([])
+
   const { colors } = useTheme()
+
+  async function getFaqs() {
+    const response = await api.get('/faqs')
+
+    setFaqs(response.data.faqs)
+  }
+
+  useEffect(() => {
+    getFaqs()
+  }, [])
   return (
     <View>
       <Header />
@@ -24,38 +45,13 @@ export function FAQ() {
         >
           Perguntas e respostas
         </Text>
-        <Text variant="headlineSmall">headline 1</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 2</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 3</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 4</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%' }} />
+        {faqs.map((faq) => (
+          <Fragment key={faq.id}>
+            <Text variant="headlineSmall">{faq.title}</Text>
+            <Text variant="bodyLarge">{faq.body} </Text>
+            <Divider bold style={{ width: '100%', marginBottom: 15 }} />
+          </Fragment>
+        ))}
         <SocialMedias />
       </ScrollView>
     </View>

@@ -68,6 +68,23 @@ export function SocialMedias() {
             />
           </LinearGradient>
         </Surface>
+        <Surface style={styles.surface} elevation={2}>
+          <LinearGradient
+            colors={['#25621E', '#3B9D30', '#163A12']}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            style={styles.iconButton}
+          >
+            <IconButton
+              icon="whatsapp"
+              iconColor={colors.background}
+              size={48}
+              onPress={() =>
+                openURL('http://api.whatsapp.com/send?phone=54999789415')
+              }
+            />
+          </LinearGradient>
+        </Surface>
       </View>
     </View>
   )

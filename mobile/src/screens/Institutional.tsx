@@ -3,9 +3,31 @@ import { SocialMedias } from '@components/SocialMedias'
 import { View, ScrollView, Image } from 'react-native'
 import { Divider, Text, useTheme } from 'react-native-paper'
 import InstitutionalImg from '@assets/institutionalImg.png'
+import { Fragment, useEffect, useState } from 'react'
+import { api } from '@services/api'
+
+type InstitutionalProps = {
+  id: string
+  title: string
+  body: string
+  user_type: 'SERVICE_PROVIDER' | 'PRODUCER'
+}
 
 export function Institutional() {
+  const [institutional, setInstitutional] = useState<InstitutionalProps[]>([])
+
   const { colors } = useTheme()
+
+  async function getInstitutional() {
+    const response = await api.get('/institutional')
+
+    setInstitutional(response.data.institutional)
+  }
+
+  useEffect(() => {
+    getInstitutional()
+  }, [])
+
   return (
     <View>
       <Header />
@@ -33,38 +55,13 @@ export function Institutional() {
           style={{ marginBottom: 20 }}
           alt="wheat field"
         />
-        <Text variant="headlineSmall">headline 1</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 2</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 3</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-        <Text variant="headlineSmall">headline 4</Text>
-        <Text variant="bodyLarge">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          facilis saepe quasi reiciendis voluptas incidunt ex. Nostrum fuga
-          labore recusandae aspernatur voluptates assumenda ipsa nesciunt,
-          necessitatibus dolorum perspiciatis, repellat itaque?
-        </Text>
-        <Divider bold style={{ width: '100%' }} />
+        {institutional.map((institutional) => (
+          <Fragment key={institutional.id}>
+            <Text variant="headlineSmall">{institutional.title}</Text>
+            <Text variant="bodyLarge">{institutional.body} </Text>
+            <Divider bold style={{ width: '100%', marginBottom: 15 }} />
+          </Fragment>
+        ))}
         <SocialMedias />
       </ScrollView>
     </View>

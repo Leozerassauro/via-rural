@@ -85,6 +85,14 @@ export function Drawer() {
               size={35}
               onPress={() => openURL('http://via-rural.com/')}
             />
+            <IconButton
+              icon="whatsapp"
+              iconColor={colors.background}
+              size={35}
+              onPress={() =>
+                openURL('http://api.whatsapp.com/send?phone=54999789415')
+              }
+            />
           </Surface>
         </PaperDrawer.Section>
         <PaperDrawer.Item

@@ -21,8 +21,6 @@ export function Routes() {
     return <Loading />
   }
 
-  console.log(user)
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <NavigationContainer theme={theme}>
