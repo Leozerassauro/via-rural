@@ -58,7 +58,9 @@ export function Institutional() {
         {institutional.map((institutional) => (
           <Fragment key={institutional.id}>
             <Text variant="headlineSmall">{institutional.title}</Text>
-            <Text variant="bodyLarge">{institutional.body} </Text>
+            <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
+              {institutional.body}
+            </Text>
             <Divider bold style={{ width: '100%', marginBottom: 15 }} />
           </Fragment>
         ))}

@@ -40,6 +40,7 @@ model News {
 
 model Faqs {
   id        String   @id @default(uuid())
+  code      Int      @default(0)
   title     String
   body      String
   user_type UserType @default(SERVICE_PROVIDER)
@@ -49,6 +50,7 @@ model Faqs {
 
 model Institutional {
   id        String   @id @default(uuid())
+  code      Int      @default(0)
   title     String
   body      String
   user_type UserType @default(SERVICE_PROVIDER)

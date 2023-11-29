@@ -7,6 +7,7 @@ import { Divider, Text, useTheme } from 'react-native-paper'
 
 type FaqProps = {
   id: string
+  code: number
   title: string
   body: string
   user_type: 'SERVICE_PROVIDER' | 'PRODUCER'
@@ -26,6 +27,7 @@ export function FAQ() {
   useEffect(() => {
     getFaqs()
   }, [])
+
   return (
     <View>
       <Header />
@@ -45,13 +47,17 @@ export function FAQ() {
         >
           Perguntas e respostas
         </Text>
-        {faqs.map((faq) => (
-          <Fragment key={faq.id}>
-            <Text variant="headlineSmall">{faq.title}</Text>
-            <Text variant="bodyLarge">{faq.body} </Text>
-            <Divider bold style={{ width: '100%', marginBottom: 15 }} />
-          </Fragment>
-        ))}
+        {faqs
+          .sort((a, b) => a.code - b.code)
+          .map((faq) => (
+            <Fragment key={faq.id}>
+              <Text variant="headlineSmall">{faq.title.toUpperCase()}</Text>
+              <Text variant="bodyLarge" style={{ textAlign: 'justify' }}>
+                {faq.body}
+              </Text>
+              <Divider bold style={{ width: '100%', marginBottom: 15 }} />
+            </Fragment>
+          ))}
         <SocialMedias />
       </ScrollView>
     </View>
