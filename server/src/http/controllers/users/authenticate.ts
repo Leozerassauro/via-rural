@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case'
+import { AccessDeniedError } from '@/use-cases/errors/access-denied-error'
 
 export async function authenticate(
   request: FastifyRequest,
@@ -32,8 +33,8 @@ export async function authenticate(
 
     return reply.status(200).send({ user, token })
   } catch (err) {
-    if (err) {
-      return reply.status(400).send({ message: err })
+    if (err instanceof AccessDeniedError) {
+      return reply.status(400).send({ message: err.message })
     }
 
     throw err

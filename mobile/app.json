@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ViaRural",
-    "slug": "viaRural",
+    "slug": "via-rural",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,13 +18,21 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 100,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.leonardogirardi.viarural"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0677f0c2-5afd-4699-8017-34d257827400"
+      }
+    },
+    "owner": "leonardogirardi"
   }
 }

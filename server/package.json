@@ -8,18 +8,22 @@
     "start": "node build/server.js",
     "build": "tsup src --out-dir build"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@types/bcryptjs": "^2.4.4",
-    "@types/node": "^20.5.9",
+    "@types/node": "^20.10.5",
     "eslint": "^8.48.0",
     "prisma": "^5.2.0",
+    "ts-node": "^10.9.2",
     "tsup": "^7.2.0",
     "tsx": "^3.12.8",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@fastify/jwt": "^7.2.1",

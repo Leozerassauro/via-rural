@@ -80,7 +80,7 @@ export function SocialMedias() {
               iconColor={colors.background}
               size={48}
               onPress={() =>
-                openURL('http://api.whatsapp.com/send?phone=54999789415')
+                openURL('http://api.whatsapp.com/send?phone=5551999150080')
               }
             />
           </LinearGradient>

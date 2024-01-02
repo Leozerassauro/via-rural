@@ -26,7 +26,7 @@ export function Drawer() {
   return (
     <Surface style={[styles.surface, { backgroundColor: colors.tertiary }]}>
       <PaperDrawer.Section style={styles.drawer}>
-        <PaperDrawer.Section theme={{ colors: { onBackground: 'red' } }}>
+        <PaperDrawer.Section>
           <PaperDrawer.Item
             label="INSTITUCIONAL"
             rippleColor={colors.surfaceVariant}
@@ -40,6 +40,14 @@ export function Drawer() {
             rippleColor={colors.surfaceVariant}
             theme={{ colors: { onSurfaceVariant: colors.background } }}
             onPress={() => handleNavigation('faq')}
+          />
+        </PaperDrawer.Section>
+        <PaperDrawer.Section>
+          <PaperDrawer.Item
+            label="BOAS PRÁTICAS"
+            rippleColor={colors.surfaceVariant}
+            theme={{ colors: { onSurfaceVariant: colors.background } }}
+            onPress={() => handleNavigation('bestPractices')}
           />
         </PaperDrawer.Section>
         <PaperDrawer.Section>
@@ -90,7 +98,7 @@ export function Drawer() {
               iconColor={colors.background}
               size={35}
               onPress={() =>
-                openURL('http://api.whatsapp.com/send?phone=54999789415')
+                openURL('http://api.whatsapp.com/send?phone=5551999150080')
               }
             />
           </Surface>
